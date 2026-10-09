@@ -1,0 +1,7 @@
+eurosat_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: eurosat.duckdb
+      threads: 4

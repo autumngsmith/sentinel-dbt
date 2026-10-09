@@ -34,3 +34,14 @@ Each of those stages is one row in `funnel_metrics.csv`, which drives the monste
 
 ## Scale
 12 tiles over roughly 5 years, at a few scenes per tile per week, in two collections: around **10,000 rows** in total.
+
+## Usage
+The fetched CSVs are committed in `data/raw/`, so the project runs without calling the API. To re-fetch them:
+
+```bash
+source eurosat-dbt-venv/bin/activate
+python scripts/fetch_scenes.py                                      # all locations in seeds/regions.csv, 2022-01-01 → 2026-09-30
+python scripts/fetch_scenes.py --start 2025-01-01 --end 2025-12-31  # custom date range
+```
+
+Each location in `seeds/regions.csv` gets its own file, `data/raw/<location>.csv`. To add a location, add a row with its `location` key and Sentinel-2 `tile_id`.

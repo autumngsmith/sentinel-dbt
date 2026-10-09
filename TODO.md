@@ -15,15 +15,15 @@ A thought experiment using the data is EuroSAT: 27,000 labeled satellite images 
 - [x] Confirm CDSE serves both the raw (`sentinel-2-l1c`) and processed (`sentinel-2-l2a`) collections
 - [x] Read tiles from `seeds/regions.csv` (one list of tiles for the script and dbt); date range passed as arguments (default 2022-01-01 → 2026-09-30)
 - [x] Search both collections per tile with a CQL2 filter on `grid:code` (`MGRS-<tile>`)
-- [x] Write one row per scene to `data/raw/scenes_l1c.csv` and `data/raw/scenes_l2a.csv`: scene id, tile, acquisition datetime, published/updated timestamps, processing version, cloud cover; L2A also gets the raw `statistics` JSON (L1C has none). Sorted output so re-runs give clean git diffs
-- [ ] Write one CSV per location instead, `data/raw/<location>.csv` (e.g. `mexico_city.csv`), so each location is its own source table. Raw and processed scenes go in the same table with a `processing_level` column (`L1C` / `L2A`); `statistics` is empty on L1C rows
-- [ ] Commit the CSVs
+- [x] ~~Write one row per scene to `data/raw/scenes_l1c.csv` and `data/raw/scenes_l2a.csv`: scene id, tile, acquisition datetime, published/updated timestamps, processing version, cloud cover; L2A also gets the raw `statistics` JSON (L1C has none). Sorted output so re-runs give clean git diffs~~ (replaced by the per-location files below)
+- [x] Write one CSV per location instead, `data/raw/<location>.csv` (e.g. `mexico_city.csv`), so each location is its own source table. **L2A only**: L1C dropped, since only 9 of ~8,400 captures lacked an L2A version. 12 files, 8,431 rows, identical to the earlier combined L2A pull
+- [x] Commit the CSVs
 - [x] Test on one tile, one year (30TVK: 2025 = 217 scenes per collection, 2022 = 150)
 - [x] Check whether L1C and L2A counts ever differ (decides if the "processed" funnel stage stays) — 30TVK matched 1:1 in both 2022 and 2025
-- [ ] Document usage in the README
+- [x] Document usage in the README
 
 ### 3. Seeds
-- [x] `regions.csv`: tile id, region name, country, climate note (12 tiles, mixing cloudy and sunny places)
+- [x] `regions.csv`: location key (matches `stg__<location>`), tile id, region name, country, climate note (12 tiles, mixing cloudy and sunny places)
 - [ ] `location_metrics.csv`: **drives the monster model.** One row per location: staging model (`stg__<location>`), alias (`<location>`), filter, event-date column (`acquired_at`). Adding a location = a seed row + a source table + a staging model
 
 one model per place; as if each place is a source

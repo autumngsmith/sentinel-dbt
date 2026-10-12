@@ -1,30 +1,32 @@
-{% macro get_locations() %} 
+{#
+    Reads the `locations` seed and returns one dict per location, which the
+    monster model loops over. Returns an empty list at parse time, when dbt
+    can't run queries yet.
+#}
+{% macro get_locations() %}
 
-{% set count_types_query %}
-select location_object_name, alias_name, filters, event_date
-from {{ ref('locations') }}
-{% endset %}
-
-{% set types = run_query(count_types_query) %}
+{% set locations = [] %}
 
 {% if execute %}
-{# put each item into the dict #}
 
-{% set types_dict = [] %}
+    {% set locations_query %}
+    select location_object_name, alias_name, filters, event_date
+    from {{ ref('locations') }}
+    {% endset %}
 
-{% for row in types.rows %}
-    {% set row_dict = {
-        "object_name" : row[0], 
-        "alias" : row[1], 
-        "filters" : row[2], 
-        "event_date" : row[3]
-    }
-    %}
+    {% set results = run_query(locations_query) %}
 
-{% do types_dict.append(row_dict) %}
-{% endfor %}
+    {% for row in results.rows %}
+        {% do locations.append({
+            "location_object_name": row[0],
+            "alias": row[1],
+            "filters": row[2],
+            "event_date": row[3]
+        }) %}
+    {% endfor %}
+
 {% endif %}
 
-{{ return(types_dict) }}
+{{ return(locations) }}
 
 {% endmacro %}

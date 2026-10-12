@@ -1,0 +1,15 @@
+version: 2
+
+exposures:
+  - name: fetch_and_load_scripts
+    label: Fetch and load scripts
+    type: application
+    maturity: medium
+    description: >
+      scripts/fetch_scenes.py and scripts/load_raw.py read the regions seed
+      for each location's tile, then fetch it from the CDSE STAC API and load
+      it into DuckDB.
+    depends_on:
+      - ref('regions')
+    owner:
+      name: autumn

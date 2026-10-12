@@ -1,0 +1,13 @@
+location_object_name,alias_name,filters,event_date
+stg__boston,boston,,event_date
+stg__chicago,chicago,,event_date
+stg__los_angeles,los_angeles,,event_date
+stg__mexico_city,mexico_city,,event_date
+stg__miami,miami,,event_date
+stg__monterrey,monterrey,,event_date
+stg__new_river_gorge,new_river_gorge,,event_date
+stg__oklahoma_city,oklahoma_city,,event_date
+stg__phoenix,phoenix,,event_date
+stg__seattle,seattle,,event_date
+stg__tuxtla_gutierrez,tuxtla_gutierrez,,event_date
+stg__yellowstone,yellowstone,,event_date

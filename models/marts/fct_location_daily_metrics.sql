@@ -10,6 +10,7 @@
 -- depends_on: {{ ref('stg__seattle') }}
 -- depends_on: {{ ref('stg__tuxtla_gutierrez') }}
 -- depends_on: {{ ref('stg__yellowstone') }}
+-- depends_on: {{ ref('locations') }}
 {{ config(
   persist_docs={"relation": true, "columns": false}
 ) }}
@@ -19,28 +20,26 @@ with {% for location in locations -%}
 {{ location.alias }} as (
     select *
     from {{ ref(location.location_object_name) }}
-    {{ location.filters }}
-    {%- endif %}
+    {{ location.filters or '' }}
 ),
 
--- {{ location.alias }}: count the number of each location broken down by the grain
+-- {{ location.alias }}: one record per image from a source location
 
 count_{{ location.alias }} as (
     select
-        {{ regex_replace(location.location_object_name.split('__')[-1], 's$', '') }}_sfdc_id as sfdc_id, 
-        {{ regex_replace(location.location_object_name.split('__')[-1], 's$', '') }}_id as id, 
+        {{ location.alias }}_scene_id as scene_id, 
         {{ location.event_date }} as event_date,
-        '{{ location.alias }}' as change_type,
-        null as bill_amount, 
-        null as pay_amount,
-        1 as num_events
+        '{{ location.alias }}' as location_name,
+        cloud_cover_pct,
+        nodata_pct,
+        1 as num_images
     from {{ location.alias }}
 
 ),
 
 {% endfor -%} 
 
-unioned_funnel_checkpoints as (
+unioned_locations as (
 
     {%- for location in locations %}
     select * from count_{{ location.alias }}
@@ -56,11 +55,10 @@ main as (
     select
         *,
         {{ dbt_utils.generate_surrogate_key([ 
-            'sfdc_id',
-            'id',
+            'scene_id',
             'event_date'
-        ]) }} as unique_location_id
-    from unioned_funnel_checkpoints
+        ]) }} as unique_image_id
+    from unioned_locations
 )
 
 select * from main 

@@ -1,0 +1,449 @@
+version: 2
+
+models:
+  - name: stg__boston
+    description: "Boston (tile 19TCH). One row per capture, deduplicated."
+    data_tests: &one_row_per_capture
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [satellite_name, acquired_at, location_id]
+    columns:
+      - name: boston_scene_id
+        description: ESA product id.
+        data_tests: [unique, not_null]
+      - name: location_id
+        description: Sentinel-2 tile.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['19TCH']
+      - &satellite_name
+        name: satellite_name
+        description: Satellite (2A, 2B, 2C).
+      - &acquired_at
+        name: acquired_at
+        description: Capture timestamp (UTC).
+      - &event_date
+        name: event_date
+        description: Capture date (UTC).
+        data_tests: [not_null]
+      - &published_at
+        name: published_at
+        description: Published to the ESA catalog.
+      - &updated_at
+        name: updated_at
+        description: Last catalog update.
+      - &processing_version
+        name: processing_version
+        description: ESA processing baseline.
+      - &cloud_cover_pct
+        name: cloud_cover_pct
+        description: "% cloud (high + medium + cirrus)."
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                max_value: 100
+      - &nodata_pct
+        name: nodata_pct
+        description: "% of tile with no data. Null if ESA sent no statistics."
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                max_value: 100
+      - &high_proba_clouds_pct
+        name: high_proba_clouds_pct
+        description: "% high-probability cloud."
+      - &medium_proba_clouds_pct
+        name: medium_proba_clouds_pct
+        description: "% medium-probability cloud."
+      - &thin_cirrus_pct
+        name: thin_cirrus_pct
+        description: "% thin cirrus."
+      - &cloud_shadow_pct
+        name: cloud_shadow_pct
+        description: "% cloud shadow."
+      - &dark_area_pct
+        name: dark_area_pct
+        description: "% dark area (terrain shadow)."
+      - &vegetation_pct
+        name: vegetation_pct
+        description: "% vegetation."
+      - &not_vegetated_pct
+        name: not_vegetated_pct
+        description: "% bare ground or built-up."
+      - &water_pct
+        name: water_pct
+        description: "% water."
+      - &unclassified_pct
+        name: unclassified_pct
+        description: "% unclassified."
+      - &saturated_defective_pct
+        name: saturated_defective_pct
+        description: "% saturated or defective pixels."
+
+  - name: stg__chicago
+    description: "Chicago (tile 16TDM). One row per capture, deduplicated."
+    data_tests: *one_row_per_capture
+    columns:
+      - name: chicago_scene_id
+        description: ESA product id.
+        data_tests: [unique, not_null]
+      - name: location_id
+        description: Sentinel-2 tile.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['16TDM']
+      - *satellite_name
+      - *acquired_at
+      - *event_date
+      - *published_at
+      - *updated_at
+      - *processing_version
+      - *cloud_cover_pct
+      - *nodata_pct
+      - *high_proba_clouds_pct
+      - *medium_proba_clouds_pct
+      - *thin_cirrus_pct
+      - *cloud_shadow_pct
+      - *dark_area_pct
+      - *vegetation_pct
+      - *not_vegetated_pct
+      - *water_pct
+      - *unclassified_pct
+      - *saturated_defective_pct
+
+  - name: stg__los_angeles
+    description: "Los Angeles (tile 11SLT). One row per capture, deduplicated."
+    data_tests: *one_row_per_capture
+    columns:
+      - name: los_angeles_scene_id
+        description: ESA product id.
+        data_tests: [unique, not_null]
+      - name: location_id
+        description: Sentinel-2 tile.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['11SLT']
+      - *satellite_name
+      - *acquired_at
+      - *event_date
+      - *published_at
+      - *updated_at
+      - *processing_version
+      - *cloud_cover_pct
+      - *nodata_pct
+      - *high_proba_clouds_pct
+      - *medium_proba_clouds_pct
+      - *thin_cirrus_pct
+      - *cloud_shadow_pct
+      - *dark_area_pct
+      - *vegetation_pct
+      - *not_vegetated_pct
+      - *water_pct
+      - *unclassified_pct
+      - *saturated_defective_pct
+
+  - name: stg__mexico_city
+    description: "Mexico City (tile 14QMG). One row per capture, deduplicated."
+    data_tests: *one_row_per_capture
+    columns:
+      - name: mexico_city_scene_id
+        description: ESA product id.
+        data_tests: [unique, not_null]
+      - name: location_id
+        description: Sentinel-2 tile.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['14QMG']
+      - *satellite_name
+      - *acquired_at
+      - *event_date
+      - *published_at
+      - *updated_at
+      - *processing_version
+      - *cloud_cover_pct
+      - *nodata_pct
+      - *high_proba_clouds_pct
+      - *medium_proba_clouds_pct
+      - *thin_cirrus_pct
+      - *cloud_shadow_pct
+      - *dark_area_pct
+      - *vegetation_pct
+      - *not_vegetated_pct
+      - *water_pct
+      - *unclassified_pct
+      - *saturated_defective_pct
+
+  - name: stg__miami
+    description: "Miami (tile 17RNJ). One row per capture, deduplicated."
+    data_tests: *one_row_per_capture
+    columns:
+      - name: miami_scene_id
+        description: ESA product id.
+        data_tests: [unique, not_null]
+      - name: location_id
+        description: Sentinel-2 tile.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['17RNJ']
+      - *satellite_name
+      - *acquired_at
+      - *event_date
+      - *published_at
+      - *updated_at
+      - *processing_version
+      - *cloud_cover_pct
+      - *nodata_pct
+      - *high_proba_clouds_pct
+      - *medium_proba_clouds_pct
+      - *thin_cirrus_pct
+      - *cloud_shadow_pct
+      - *dark_area_pct
+      - *vegetation_pct
+      - *not_vegetated_pct
+      - *water_pct
+      - *unclassified_pct
+      - *saturated_defective_pct
+
+  - name: stg__monterrey
+    description: "Monterrey (tile 14RLP). One row per capture, deduplicated."
+    data_tests: *one_row_per_capture
+    columns:
+      - name: monterrey_scene_id
+        description: ESA product id.
+        data_tests: [unique, not_null]
+      - name: location_id
+        description: Sentinel-2 tile.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['14RLP']
+      - *satellite_name
+      - *acquired_at
+      - *event_date
+      - *published_at
+      - *updated_at
+      - *processing_version
+      - *cloud_cover_pct
+      - *nodata_pct
+      - *high_proba_clouds_pct
+      - *medium_proba_clouds_pct
+      - *thin_cirrus_pct
+      - *cloud_shadow_pct
+      - *dark_area_pct
+      - *vegetation_pct
+      - *not_vegetated_pct
+      - *water_pct
+      - *unclassified_pct
+      - *saturated_defective_pct
+
+  - name: stg__new_river_gorge
+    description: "New River Gorge (tile 17SMC). One row per capture, deduplicated."
+    data_tests: *one_row_per_capture
+    columns:
+      - name: new_river_gorge_scene_id
+        description: ESA product id.
+        data_tests: [unique, not_null]
+      - name: location_id
+        description: Sentinel-2 tile.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['17SMC']
+      - *satellite_name
+      - *acquired_at
+      - *event_date
+      - *published_at
+      - *updated_at
+      - *processing_version
+      - *cloud_cover_pct
+      - *nodata_pct
+      - *high_proba_clouds_pct
+      - *medium_proba_clouds_pct
+      - *thin_cirrus_pct
+      - *cloud_shadow_pct
+      - *dark_area_pct
+      - *vegetation_pct
+      - *not_vegetated_pct
+      - *water_pct
+      - *unclassified_pct
+      - *saturated_defective_pct
+
+  - name: stg__oklahoma_city
+    description: "Oklahoma City (tile 14SPE). One row per capture, deduplicated."
+    data_tests: *one_row_per_capture
+    columns:
+      - name: oklahoma_city_scene_id
+        description: ESA product id.
+        data_tests: [unique, not_null]
+      - name: location_id
+        description: Sentinel-2 tile.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['14SPE']
+      - *satellite_name
+      - *acquired_at
+      - *event_date
+      - *published_at
+      - *updated_at
+      - *processing_version
+      - *cloud_cover_pct
+      - *nodata_pct
+      - *high_proba_clouds_pct
+      - *medium_proba_clouds_pct
+      - *thin_cirrus_pct
+      - *cloud_shadow_pct
+      - *dark_area_pct
+      - *vegetation_pct
+      - *not_vegetated_pct
+      - *water_pct
+      - *unclassified_pct
+      - *saturated_defective_pct
+
+  - name: stg__phoenix
+    description: "Phoenix (tile 12SUC). One row per capture, deduplicated."
+    data_tests: *one_row_per_capture
+    columns:
+      - name: phoenix_scene_id
+        description: ESA product id.
+        data_tests: [unique, not_null]
+      - name: location_id
+        description: Sentinel-2 tile.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['12SUC']
+      - *satellite_name
+      - *acquired_at
+      - *event_date
+      - *published_at
+      - *updated_at
+      - *processing_version
+      - *cloud_cover_pct
+      - *nodata_pct
+      - *high_proba_clouds_pct
+      - *medium_proba_clouds_pct
+      - *thin_cirrus_pct
+      - *cloud_shadow_pct
+      - *dark_area_pct
+      - *vegetation_pct
+      - *not_vegetated_pct
+      - *water_pct
+      - *unclassified_pct
+      - *saturated_defective_pct
+
+  - name: stg__seattle
+    description: "Seattle (tile 10TET). One row per capture, deduplicated."
+    data_tests: *one_row_per_capture
+    columns:
+      - name: seattle_scene_id
+        description: ESA product id.
+        data_tests: [unique, not_null]
+      - name: location_id
+        description: Sentinel-2 tile.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['10TET']
+      - *satellite_name
+      - *acquired_at
+      - *event_date
+      - *published_at
+      - *updated_at
+      - *processing_version
+      - *cloud_cover_pct
+      - *nodata_pct
+      - *high_proba_clouds_pct
+      - *medium_proba_clouds_pct
+      - *thin_cirrus_pct
+      - *cloud_shadow_pct
+      - *dark_area_pct
+      - *vegetation_pct
+      - *not_vegetated_pct
+      - *water_pct
+      - *unclassified_pct
+      - *saturated_defective_pct
+
+  - name: stg__tuxtla_gutierrez
+    description: "Chiapas (Tuxtla Gutierrez) (tile 15QVU). One row per capture, deduplicated."
+    data_tests: *one_row_per_capture
+    columns:
+      - name: tuxtla_gutierrez_scene_id
+        description: ESA product id.
+        data_tests: [unique, not_null]
+      - name: location_id
+        description: Sentinel-2 tile.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['15QVU']
+      - *satellite_name
+      - *acquired_at
+      - *event_date
+      - *published_at
+      - *updated_at
+      - *processing_version
+      - *cloud_cover_pct
+      - *nodata_pct
+      - *high_proba_clouds_pct
+      - *medium_proba_clouds_pct
+      - *thin_cirrus_pct
+      - *cloud_shadow_pct
+      - *dark_area_pct
+      - *vegetation_pct
+      - *not_vegetated_pct
+      - *water_pct
+      - *unclassified_pct
+      - *saturated_defective_pct
+
+  - name: stg__yellowstone
+    description: "Yellowstone (tile 12TWQ). One row per capture, deduplicated."
+    data_tests: *one_row_per_capture
+    columns:
+      - name: yellowstone_scene_id
+        description: ESA product id.
+        data_tests: [unique, not_null]
+      - name: location_id
+        description: Sentinel-2 tile.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['12TWQ']
+      - *satellite_name
+      - *acquired_at
+      - *event_date
+      - *published_at
+      - *updated_at
+      - *processing_version
+      - *cloud_cover_pct
+      - *nodata_pct
+      - *high_proba_clouds_pct
+      - *medium_proba_clouds_pct
+      - *thin_cirrus_pct
+      - *cloud_shadow_pct
+      - *dark_area_pct
+      - *vegetation_pct
+      - *not_vegetated_pct
+      - *water_pct
+      - *unclassified_pct
+      - *saturated_defective_pct

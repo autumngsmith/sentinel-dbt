@@ -1,0 +1,18 @@
+version: 2
+
+macros:
+  - name: unpack_statistics
+    description: >
+      Unpacks the scene statistics JSON into one numeric column per field,
+      named <field>_pct. Values are % of valid pixels per class; nodata is
+      % of the whole tile.
+    arguments:
+      - name: column
+        type: string
+        description: Name of the JSON column holding the scene statistics.
+
+  - name: get_locations
+    description: >
+      Reads the locations seed and returns one dict per location
+      (location_object_name, alias, filters, event_date) for the monster
+      model to loop over. Returns an empty list at parse time.

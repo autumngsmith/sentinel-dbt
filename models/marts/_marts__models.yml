@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: fct_location_daily_metrics
+    description: "Monster model. One row per image, all locations unioned via the locations seed."
+    columns:
+      - name: unique_image_id
+        description: Surrogate key.
+        data_tests: [unique, not_null]
+      - name: scene_id
+        description: ESA product id.
+        data_tests: [unique, not_null]
+      - name: event_date
+        description: Capture date (UTC).
+        data_tests: [not_null]
+      - name: location_name
+        description: Location.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['boston', 'chicago', 'los_angeles', 'mexico_city', 'miami', 'monterrey', 'new_river_gorge', 'oklahoma_city', 'phoenix', 'seattle', 'tuxtla_gutierrez', 'yellowstone']
+      - name: cloud_cover_pct
+        description: "% cloud."
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                max_value: 100
+      - name: nodata_pct
+        description: "% of tile with no data."
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                max_value: 100
+      - name: num_images
+        description: Always 1; sum to count images.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [1]
+                quote: false

@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: locations
+    description: "Sentinel-2 L2A scene metadata, one table per location, loaded from data/raw/<location>.csv by scripts/load_raw.py."
+    schema: locations
+    tables:
+      - name: boston
+      - name: chicago
+      - name: los_angeles
+      - name: mexico_city
+      - name: miami
+      - name: monterrey
+      - name: new_river_gorge
+      - name: oklahoma_city
+      - name: phoenix
+      - name: seattle
+      - name: tuxtla_gutierrez
+      - name: yellowstone

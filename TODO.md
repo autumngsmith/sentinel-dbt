@@ -45,9 +45,9 @@ A thought experiment using the data is EuroSAT: 27,000 labeled satellite images 
 - ~~Turn off one exclusion and confirm the drift guard catches the count change~~ (dropped: no exclusion filter)
 
 ### 8. Publish
-- [ ] Delete the empty last cell in `portfolio.ipynb`
-- [ ] Commit (no Claude co-author lines)
-- [ ] Create the public GitHub repo `autumngsmith/sentinel-dbt` and push (the write-up's script links and the site CI depend on this name)
+- [x] Delete the empty last cell in `portfolio.ipynb`
+- [x] Commit (no Claude co-author lines)
+- [x] Create the public GitHub repo `autumngsmith/sentinel-dbt` and push (the write-up's script links and the site CI depend on this name)
 - [ ] Docs on the live site: copy `static_index.html` to `portfolio/projects/sentinel-dbt-dbt-docs.html`, add `!projects/sentinel-dbt-dbt-docs.html` to the portfolio `.gitignore`, commit and push the portfolio repo
 - [ ] Rebuild the site (`draft: false` is already set)
 - [ ] Stop the local preview on port 4301

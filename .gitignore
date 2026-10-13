@@ -1,4 +1,4 @@
-eurosat-dbt-venv/
+sentinel-dbt-venv/
 target/
 dbt_packages/
 logs/

@@ -1,6 +1,6 @@
-name: 'eurosat_dbt'
+name: 'sentinel_dbt'
 version: '1.0.0'
-profile: 'eurosat_dbt'
+profile: 'sentinel_dbt'
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
@@ -14,7 +14,7 @@ clean-targets:
   - "dbt_packages"
 
 models:
-  eurosat_dbt:
+  sentinel_dbt:
     staging:
       +materialized: view
     intermediate:

@@ -1,7 +1,7 @@
-eurosat_dbt:
+sentinel_dbt:
   target: dev
   outputs:
     dev:
       type: duckdb
-      path: eurosat.duckdb
+      path: sentinel.duckdb
       threads: 4

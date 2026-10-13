@@ -6,14 +6,174 @@ sources:
     schema: locations
     tables:
       - name: boston
+        description: &table_description Raw scene metadata for one location. One row per scene; not deduplicated.
+        columns:
+          - name: boston_scene_id
+            description: &scene_id_description ESA product id for the scene.
+          - &tile_id
+            name: tile_id
+            description: The Sentinel-2 tile.
+          - &platform
+            name: platform
+            description: The satellite that took the image.
+          - &acquired_at
+            name: acquired_at
+            description: When the image was taken.
+          - &published_at
+            name: published_at
+            description: When ESA published the scene.
+          - &updated_at
+            name: updated_at
+            description: When ESA last updated the scene.
+          - &processing_version
+            name: processing_version
+            description: ESA processing software version.
+          - &cloud_cover
+            name: cloud_cover
+            description: Percent cloud cover, as reported by ESA.
+          - &statistics
+            name: statistics
+            description: JSON of ESA's pixel class percentages; unpacked in staging.
       - name: chicago
+        description: *table_description
+        columns:
+          - name: chicago_scene_id
+            description: *scene_id_description
+          - *tile_id
+          - *platform
+          - *acquired_at
+          - *published_at
+          - *updated_at
+          - *processing_version
+          - *cloud_cover
+          - *statistics
       - name: los_angeles
+        description: *table_description
+        columns:
+          - name: los_angeles_scene_id
+            description: *scene_id_description
+          - *tile_id
+          - *platform
+          - *acquired_at
+          - *published_at
+          - *updated_at
+          - *processing_version
+          - *cloud_cover
+          - *statistics
       - name: mexico_city
+        description: *table_description
+        columns:
+          - name: mexico_city_scene_id
+            description: *scene_id_description
+          - *tile_id
+          - *platform
+          - *acquired_at
+          - *published_at
+          - *updated_at
+          - *processing_version
+          - *cloud_cover
+          - *statistics
       - name: miami
+        description: *table_description
+        columns:
+          - name: miami_scene_id
+            description: *scene_id_description
+          - *tile_id
+          - *platform
+          - *acquired_at
+          - *published_at
+          - *updated_at
+          - *processing_version
+          - *cloud_cover
+          - *statistics
       - name: monterrey
+        description: *table_description
+        columns:
+          - name: monterrey_scene_id
+            description: *scene_id_description
+          - *tile_id
+          - *platform
+          - *acquired_at
+          - *published_at
+          - *updated_at
+          - *processing_version
+          - *cloud_cover
+          - *statistics
       - name: new_river_gorge
+        description: *table_description
+        columns:
+          - name: new_river_gorge_scene_id
+            description: *scene_id_description
+          - *tile_id
+          - *platform
+          - *acquired_at
+          - *published_at
+          - *updated_at
+          - *processing_version
+          - *cloud_cover
+          - *statistics
       - name: oklahoma_city
+        description: *table_description
+        columns:
+          - name: oklahoma_city_scene_id
+            description: *scene_id_description
+          - *tile_id
+          - *platform
+          - *acquired_at
+          - *published_at
+          - *updated_at
+          - *processing_version
+          - *cloud_cover
+          - *statistics
       - name: phoenix
+        description: *table_description
+        columns:
+          - name: phoenix_scene_id
+            description: *scene_id_description
+          - *tile_id
+          - *platform
+          - *acquired_at
+          - *published_at
+          - *updated_at
+          - *processing_version
+          - *cloud_cover
+          - *statistics
       - name: seattle
+        description: *table_description
+        columns:
+          - name: seattle_scene_id
+            description: *scene_id_description
+          - *tile_id
+          - *platform
+          - *acquired_at
+          - *published_at
+          - *updated_at
+          - *processing_version
+          - *cloud_cover
+          - *statistics
       - name: tuxtla_gutierrez
+        description: *table_description
+        columns:
+          - name: tuxtla_gutierrez_scene_id
+            description: *scene_id_description
+          - *tile_id
+          - *platform
+          - *acquired_at
+          - *published_at
+          - *updated_at
+          - *processing_version
+          - *cloud_cover
+          - *statistics
       - name: yellowstone
+        description: *table_description
+        columns:
+          - name: yellowstone_scene_id
+            description: *scene_id_description
+          - *tile_id
+          - *platform
+          - *acquired_at
+          - *published_at
+          - *updated_at
+          - *processing_version
+          - *cloud_cover
+          - *statistics

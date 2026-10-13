@@ -1,0 +1,28 @@
+version: 2
+
+seeds:
+  - name: locations
+    description: Drives the monster model. One row per location; each row becomes one CTE in `fct_location_daily_metrics`.
+    columns:
+      - name: location_object_name
+        description: The staging model to select from.
+      - name: alias_name
+        description: The location name; used as the CTE name and the `location_name` value.
+      - name: filters
+        description: Optional where clause for the location. Blank means no filter.
+      - name: event_date
+        description: The column used as the event date.
+
+  - name: regions
+    description: One row per location with its Sentinel-2 tile. Read by the fetch and load scripts, not by any model.
+    columns:
+      - name: location
+        description: Location key; matches the source table and `stg__<location>`.
+      - name: tile_id
+        description: The Sentinel-2 tile for the location.
+      - name: region_name
+        description: Display name of the location.
+      - name: country
+        description: Country of the location.
+      - name: climate_note
+        description: Short note on the location's weather.

@@ -8,7 +8,7 @@ gitignored, so a fresh clone rebuilds it from the committed CSVs.
 
 Usage:
     python scripts/load_raw.py
-    python scripts/load_raw.py --db eurosat.duckdb --raw data/raw --regions seeds/regions.csv
+    python scripts/load_raw.py --db sentinel.duckdb --raw data/raw --regions seeds/regions.csv
 """
 
 import argparse
@@ -41,7 +41,7 @@ def read_locations(regions_path):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--db", default="eurosat.duckdb", help="DuckDB database file")
+    parser.add_argument("--db", default="sentinel.duckdb", help="DuckDB database file")
     parser.add_argument("--raw", default="data/raw", help="folder holding <location>.csv files")
     parser.add_argument("--regions", default="seeds/regions.csv", help="CSV with a location column")
     args = parser.parse_args()

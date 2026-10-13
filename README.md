@@ -1,8 +1,14 @@
+# Config-driven Union Model
+
+Much like Frankenstein's monster, the demonstrated model brings together many objects into one "Monster Model". Funnel metrics for analysts, rebuilt on Sentinel-2 catalog data: 12 different sources combined into one transactional fact table.
+
+Full write-up: [`portfolio.ipynb`](portfolio.ipynb)
+
 This project uses the **catalog of Sentinel-2 satellite photos**: a list describing each photo, not the photos themselves.
 
 ## The basics
 - **Sentinel-2** is a set of European Space Agency (ESA) satellites that photograph all of Earth's land every few days. 
-- **Scene:** one photo of one area at one moment. This is the main thing being counted.
+- **Scene:** one photo x one area x one moment. This is the main thing being counted.
 - **Tile:** Earth is divided into a fixed grid of squares about 110 km across, each with a code like `30TVK`. Every scene belongs to one tile. A "region" in this project is a tile that has been selected and given a name.
 - **Level-2A (L2A):** the processing level used here: each photo after ESA corrects it for the atmosphere and runs its analysis on it (cloud detection and so on).
 - **Catalog:** ESA publishes a searchable list with one entry per scene: when it was taken, which tile, and summary stats ESA calculated. That list is the project's data. No photos are downloaded.
@@ -32,12 +38,22 @@ That scene would not count as usable: it's neither clear nor full coverage.
 12 tiles from 2022-01-01 to 2026-09-30: **8,431 rows** raw, **8,178** after deduplication.
 
 ## Usage
+Setup (Python 3.11):
+
+```bash
+python3.11 -m venv sentinel-dbt-venv
+source sentinel-dbt-venv/bin/activate
+pip install -r requirements.txt
+dbt deps
+```
+
 The fetched CSVs are committed in `data/raw/` and are never edited by hand. dbt reads from DuckDB, not the CSVs, so load them first:
 
 ```bash
-source eurosat-dbt-venv/bin/activate
-python scripts/load_raw.py   # creates locations.<location> tables in eurosat.duckdb
+source sentinel-dbt-venv/bin/activate
+python scripts/load_raw.py   # creates locations.<location> tables in sentinel.duckdb
 dbt build
+python scripts/generate_docs.py   # dbt docs, with the local path removed; use instead of dbt docs generate
 ```
 
 To re-fetch the CSVs from the API:

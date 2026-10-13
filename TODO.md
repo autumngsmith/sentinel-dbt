@@ -1,4 +1,4 @@
-# TODO — eurosat-dbt
+# TODO — sentinel-dbt
 
 ## Goal
 A thought experiment using the data is EuroSAT: 27,000 labeled satellite images in 10 class folders. The folders already give each image its class. Everything runs locally on DuckDB: clone → `pip install` → `dbt build`.
@@ -30,11 +30,27 @@ A thought experiment using the data is EuroSAT: 27,000 labeled satellite images 
 ### 6. Documentation
 - [x] YAML descriptions for every model and column; `persist_docs` on the marts
 - [x] Exposure `fetch_and_load_scripts` (`models/_exposures.yml`) on the `regions` seed, so it shows in the DAG
-- [ ] README: what the project shows and why, setup steps, lineage screenshot from `dbt docs`
+- [ ] README: what the project shows and why, setup steps, lineage screenshot from `dbt docs`. Done: title + purpose (from the write-up), write-up link, setup steps (venv, `pip install`, `dbt deps`). Left (optional): lineage diagram
+- [x] Seed and source descriptions (`seeds/_seeds.yml`, `_locations__sources.yml`); overview page (`models/_overview.md`, adapted from finances-otovek)
+- [x] Remove the Mac username (`root_path`) from `target/static_index.html` after each `dbt docs generate --static` (proposed: a script that generates + scrubs)
+  - Plan (2026-10-12): add `scripts/generate_docs.py`: runs `dbt docs generate --static` with the venv's dbt, replaces the absolute project path in `target/static_index.html` with `eurosat-dbt`, and fails if the home path is still in the file. Run it and confirm the username is gone. Then add a README usage line: use this script instead of `dbt docs generate`
+  - Done: 0 username hits. After each run, the file is moved by hand from `target/` to the repo root (`static_index.html`); the script itself still writes to `target/`
+- [x] Rename eurosat → sentinel everywhere (approved 2026-10-12): folder and GitHub name `sentinel-dbt`, dbt project/profile `sentinel_dbt`, `sentinel.duckdb`, venv `sentinel-dbt-venv` (rebuilt), write-up links and docs filename; rebuild, regenerate docs to the repo root, refresh portfolio preview. Done: build 134 pass, docs have no `eurosat` and no username
+- ~~Portfolio sync: `portfolio/scripts/sync-projects.sh` only copies `<repo>/dbt/target/static_index.html`; this project's docs are at `target/`, so the `eurosat-dbt-dbt-docs.html` links 404 until that's handled~~ (dropped: docs live at the repo root and get copied into the portfolio by hand, see step 8)
+- [x] Portfolio write-up (`portfolio.ipynb`): Showcase trimmed to Data, Lineage, Staging, Monster model, Tests, Analysis; model and seed link to the dbt docs, scripts link to GitHub; outcome (14 metrics from 11 source models) in the front matter; blank lines before every list
 
 ### 7. Verify
+- [x] Local preview of the portfolio page (`quarto preview`, port 4301) with the docs link working
 - [x] Fresh clone → venv → `dbt deps` → `dbt build` passes with no errors (simulated in a scratch copy with no database: load_raw → deps → build = 134 pass; `dbt docs generate` works)
 - ~~Turn off one exclusion and confirm the drift guard catches the count change~~ (dropped: no exclusion filter)
+
+### 8. Publish
+- [ ] Delete the empty last cell in `portfolio.ipynb`
+- [ ] Commit (no Claude co-author lines)
+- [ ] Create the public GitHub repo `autumngsmith/sentinel-dbt` and push (the write-up's script links and the site CI depend on this name)
+- [ ] Docs on the live site: copy `static_index.html` to `portfolio/projects/sentinel-dbt-dbt-docs.html`, add `!projects/sentinel-dbt-dbt-docs.html` to the portfolio `.gitignore`, commit and push the portfolio repo
+- [ ] Rebuild the site (`draft: false` is already set)
+- [ ] Stop the local preview on port 4301
 
 
 ## Completed steps:
